@@ -1,0 +1,110 @@
+<style lang="less">
+@import './style/weui.less';
+page{
+    background-color: #F8F8F8;
+    font-size: 16px;
+    font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+}
+.page__hd {
+    padding: 40px;
+}
+.page__bd {
+    padding-bottom: 40px;
+}
+.page__bd_spacing {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.page__ft{
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.page__title {
+    text-align: left;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.page__desc {
+    margin-top: 5px;
+    color: #888888;
+    text-align: left;
+    font-size: 14px;
+}
+</style>
+
+<script>
+
+import wepy from 'wepy';
+import 'wepy-async-function';
+
+export default class extends wepy.app {
+
+    onShow () {
+        console.log('This is my first console log');
+    }
+    config = {
+        'pages': [
+            'pages/index',
+            'pages/list',
+            'pages/button',
+            'pages/input',
+            /*
+            'example/index',
+            'example/button',
+            'example/list',
+            'example/input',
+            'example/slider',
+            'example/uploader',
+
+            'example/article',
+            'example/badge',
+            'example/flex',
+            'example/footer',
+            'example/gallery',
+            'example/grid',
+            'example/icons',
+            'example/loadmore',
+            'example/panel',
+            'example/preview',
+            'example/progress',
+
+            'example/actionsheet',
+            'example/dialog',
+            'example/msg',
+            'example/msg_fail',
+            'example/msg_success',
+            'example/picker',
+            'example/toast',
+
+            'example/navbar',
+            'example/tabbar',
+
+            'example/searchbar' */
+        ],
+        'window': {
+            'navigationBarTextStyle': 'black',
+            'navigationBarTitleText': '生活小助手',
+            'navigationBarBackgroundColor': '#f8f8f8',
+            'backgroundColor': '#f8f8f8'
+        },
+        'networkTimeout': {
+            'request': 10000,
+            'connectSocket': 10000,
+            'uploadFile': 10000,
+            'downloadFile': 10000
+        }
+    };
+
+    constructor () {
+        super();
+        // 开启promise await async等功能的必需代码 [使API promise化]
+        this.use('promisify');
+
+        // 解决了同时发起多个request时候的异常修复
+        this.use('requestfix');
+    }
+}
+</script>

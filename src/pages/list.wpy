@@ -1,0 +1,43 @@
+<script>
+ import wepy from 'wepy';
+
+ export default class ListTest extends wepy.page {
+     config = {};
+     components = {};
+
+     data = {
+         message: 'hello world!',
+         array: []
+     };
+     methods = {
+         // 重点：要在function前面写async表示异步，在请求前面编写 await(等待)，最后写一句 this.$apply();语句可以实现动态绑定数据。
+         getArray: async function () {
+             await wepy.request('http://localhost:8000/api/test/').then((d) => this.array = d.data);
+             this.$apply();
+         }
+     };
+
+     events = {};
+     onLoad() {};
+ }
+ </script>
+
+ <template lang="wxml">
+    <view class="hello">{{message}}</view>
+    <repeat for="{{array}}" key="index" index="index" item="item">
+        <view>Name:{{ item.name}}----Age:{{ item.age }}----Sex:{{ item.sex }}</view>
+    </repeat>
+    <view class="array">
+        <button @tap="getArray()">显示LIST列表</button>
+    </view>
+    <repeat for="{{array}}" key="index" index="index" item="item">
+        <view>Name:{{ item.name}}----Age:{{ item.age }}----Sex:{{ item.sex }}</view>
+    </repeat>
+ </template>
+
+ <style lang="less">
+    .hello {
+        text-align: center;
+        height: 40px;
+    }
+ </style>
