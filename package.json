@@ -12,7 +12,7 @@
   "dependencies": {
     "less": "^3.9.0",
     "wepy": "^1.5.1",
-    "wepy-async-function": "^1.4.4",
+    "wepy-async-function": "^1.4.7",
     "wepy-com-toast": "^1.0.1"
   },
   "devDependencies": {

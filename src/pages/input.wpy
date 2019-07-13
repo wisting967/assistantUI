@@ -1,12 +1,6 @@
 <template>
     <view class="page">
-        <view class="page__hd">
-            <view class="page__title">Input</view>
-            <view class="page__desc">表单输入</view>
-        </view>
         <view class="page__bd">
-
-            <view class="weui-cells__title">认识{{period}}天了</view>
             <view class="weui-cells weui-cells_after-title">
                 <view class="weui-cell weui-cell_input weui-cell_vcode">
                     <view class="weui-cell weui-cell_input">
@@ -23,13 +17,13 @@
                         <view class="weui-cell weui-cell_switch">
                             <view class="weui-cell__bd">保存</view>
                             <view class="weui-cell__ft">
-                                <switch checked></switch>
+                                <switch @change="bindSaveCheck"></switch>
                             </view>
                         </view>
                     </view>
                 </view>
             </view>
-            <view class="weui-cells__tips">仅保存在本地</view>
+            <view class="weui-cells__tips">{{alertSave}}</view>
             <view class="weui-btn-area">
                 <button class="weui-btn" type="primary" @tap="showTopTips">确定</button>
             </view>
@@ -66,7 +60,9 @@
             accounts: ['微信号', 'QQ', 'Email'],
             accountIndex: 0,
 
-            isAgree: false
+            isAgree: false,
+
+            alertSave: '保存在本地'
         };
 
         methods = {
@@ -115,17 +111,38 @@
             bindAgreeChange (e) {
                 this.isAgree = !!e.detail.value.length;
             },
-            showTopTips () {
+            bindSaveCheck (e) {
+                if (e.detail.value === true) {
+                    this.alertSave = '保存到云端';
+                } else {
+                    this.alertSave = '保存在本地';
+                }
+                this.$apply();
+            },
+            async showTopTips () {
                 this.tipsFlag = true;
-                console.log(this.data);
-                console.log(this.date);
                 var startDate = new Date(this.date);
                 var now = new Date();
-                console.log(now, ', ', startDate);
+                this.period = Math.ceil((now - startDate) / 1000 / 60 / 60 / 24);
+                var alertMsg = '';
+                if (now > startDate) {
+                    alertMsg = '幸运之星：认识她/他 ' + this.period + ' 天了';
+                } else {
+                    alertMsg = '加油，从第一天开始！';
+                }
+                let res = await wepy.showModal({
+                    content: alertMsg,
+                    showCancel: false
+                });
+
+                if (res.confirm) {
+                    console.log('用户点击确定');
+                }
+
                 setTimeout(() => {
-                    this.period = Math.abs(startDate - now) / 1000 / 60 / 60 / 24;
-                    console.log(Math.ceil(this.period));
-                    this.tipsFlag = false;
+                    // this.title = 'this is title';
+                    this.date = '2019-07-01';
+                    console.log('$apply');
                     this.$apply();
                 }, 3000);
             }
@@ -134,7 +151,10 @@
 
         onLoad () {
             this.icon = require('../images/base64.js').icon20;
-            this.today = (new Date()).Format('yyyy-MM-dd');
+            var d = new Date();
+            var today = new Date();
+            console.log(d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate());
+            this.today = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         }
     }
 </script>
