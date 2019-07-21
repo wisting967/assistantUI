@@ -47,18 +47,18 @@ export default class extends wepy.app {
     }
     config = {
         'pages': [
-            'pages/index',
+            'pages/index',  // 实际入口，借鉴样例时，注释此行
+            //'example/index',  // 借鉴样例，则去掉注释
             'pages/list',
             'pages/button',
             'pages/input',
-            /*
-            'example/index',
+            'pages/newfeature',
+            'pages/improve',
             'example/button',
             'example/list',
             'example/input',
             'example/slider',
             'example/uploader',
-
             'example/article',
             'example/badge',
             'example/flex',
@@ -82,7 +82,7 @@ export default class extends wepy.app {
             'example/navbar',
             'example/tabbar',
 
-            'example/searchbar' */
+            'example/searchbar'
         ],
         'window': {
             'navigationBarTextStyle': 'black',

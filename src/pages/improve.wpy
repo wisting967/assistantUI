@@ -153,9 +153,7 @@
 
         onLoad () {
             this.icon = require('../images/base64.js').icon20;
-            var d = new Date();
             var today = new Date();
-            console.log(d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate());
             this.today = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         }
     }

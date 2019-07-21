@@ -1,31 +1,25 @@
 <template>
     <view class="page">
         <view class="page__bd">
+            <view class="weui-cells__title">标题</view>
             <view class="weui-cells weui-cells_after-title">
-                <view class="weui-cell weui-cell_input weui-cell_vcode">
-                    <view class="weui-cell weui-cell_input">
-                        <view class="weui-cell__hd">
-                            <view class="weui-label">认识第一天</view>
-                        </view>
-                        <view class="weui-cell__bd">
-                            <picker mode="date" value="{{date}}" start="1990-09-01" end="{{today}}" @change="bindDateChange">
-                                <view class="weui-input">{{date}}</view>
-                            </picker>
-                        </view>
+                <view class="weui-cell weui-cell_input">
+                    <view class="weui-cell__hd">
+                        <view class="weui-label">标题</view>
                     </view>
-                    <view class="weui-cells weui-cells_after-title">
-                        <view class="weui-cell weui-cell_switch">
-                            <view class="weui-cell__bd">保存</view>
-                            <view class="weui-cell__ft">
-                                <switch @change="bindSaveCheck"></switch>
-                            </view>
-                        </view>
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" placeholder="请输入标题，以便于我们优先识别" />
+                    </view>
+                </view>
+                <view class="weui-cell">
+                    <view class="weui-cell__bd">
+                        <textarea class="weui-textarea" placeholder="请输入具体描述" style="height: 3.3em" />
+                        <view class="weui-textarea-counter">0/200</view>
                     </view>
                 </view>
             </view>
-            <view class="weui-cells__tips">{{alertSave}}</view>
             <view class="weui-btn-area">
-                <button class="weui-btn" type="primary" @tap="showTopTips">确定</button>
+                <button class="weui-btn" type="primary" @tap="submitFeature">提交</button>
             </view>
         </view>
     </view>
@@ -38,30 +32,6 @@
 
         data = {
             tipsFlag: false,
-
-            radioItems: [
-                {name: 'cell standard', value: '0', checked: false},
-                {name: 'cell standard', value: '1', checked: true}
-            ],
-            checkboxItems: [
-                {name: 'standard is dealt for u.', value: '0', checked: true},
-                {name: 'standard is dealicient for u.', value: '1', checked: false}
-            ],
-
-            date: '1990-09-01',
-            time: '12:01',
-
-            countryCodes: ['+86', '+80', '+84', '+87'],
-            countryCodeIndex: 0,
-
-            countries: ['中国', '美国', '英国'],
-            countryIndex: 0,
-
-            accounts: ['微信号', 'QQ', 'Email'],
-            accountIndex: 0,
-
-            isAgree: false,
-
             alertSave: '保存在本地'
         };
 
