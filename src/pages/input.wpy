@@ -143,8 +143,7 @@
 
                 setTimeout(() => {
                     // this.title = 'this is title';
-                    this.date = '2019-07-01';
-                    console.log('$apply');
+                    this.date = '2019-7-1';
                     this.$apply();
                 }, 3000);
             }
@@ -153,9 +152,7 @@
 
         onLoad () {
             this.icon = require('../images/base64.js').icon20;
-            var d = new Date();
             var today = new Date();
-            console.log(d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate());
             this.today = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         }
     }

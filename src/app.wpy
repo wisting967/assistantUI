@@ -48,12 +48,12 @@ export default class extends wepy.app {
     config = {
         'pages': [
             'pages/index',  // 实际入口，借鉴样例时，注释此行
-            //'example/index',  // 借鉴样例，则去掉注释
+            'pages/input',
             'pages/list',
             'pages/button',
-            'pages/input',
             'pages/newfeature',
             'pages/improve',
+            // 'example/index',  // 借鉴样例，则去掉注释
             'example/button',
             'example/list',
             'example/input',

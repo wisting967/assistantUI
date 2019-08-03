@@ -1,160 +1,97 @@
 <template>
     <view class="page">
         <view class="page__bd">
-            <view class="weui-cells weui-cells_after-title">
-                <view class="weui-cell weui-cell_input weui-cell_vcode">
+            <!--view class="weui-cells__title">标题</view-->
+            <form bindsubmit="submitFeature">
+                <view class="weui-cells weui-cells_after-title">
                     <view class="weui-cell weui-cell_input">
                         <view class="weui-cell__hd">
-                            <view class="weui-label">认识第一天</view>
+                            <view class="weui-label">标题</view>
                         </view>
                         <view class="weui-cell__bd">
-                            <picker mode="date" value="{{date}}" start="1990-09-01" end="{{today}}" @change="bindDateChange">
-                                <view class="weui-input">{{date}}</view>
-                            </picker>
+                            <input class="weui-input" placeholder="请输入标题，以便于我们优先识别" name="title">{{ title }}</input>
                         </view>
                     </view>
-                    <view class="weui-cells weui-cells_after-title">
-                        <view class="weui-cell weui-cell_switch">
-                            <view class="weui-cell__bd">保存</view>
-                            <view class="weui-cell__ft">
-                                <switch @change="bindSaveCheck"></switch>
+                    <view class="weui-uploader">
+                        <view class="weui-uploader__bd">
+                            <view class="weui-uploader__files" id="uploaderFiles">
+                                <block wx:for="{{files}}" wx:key="*this">
+                                    <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
+                                        <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                                    </view>
+                                </block>
                             </view>
+                            <view class="weui-uploader__input-box">
+                                <view class="weui-uploader__input" bindtap="chooseImage"></view>
+                            </view>
+                        </view>
+                        <view class="weui-uploader__hd">
+                          <view class="weui-uploader__overview">
+                              <view class="weui-uploader__info">{{files.length}}/2</view>
+                          </view>
+                        </view>
+                    </view>
+                    <view class="weui-cell">
+                        <view class="weui-cell__bd">
+                            <textarea class="weui-textarea" placeholder="截图上传" style="height: 3.3em" name="context">{{ context }}</textarea>
+                            <view class="weui-textarea-counter">0/200</view>
                         </view>
                     </view>
                 </view>
-            </view>
-            <view class="weui-cells__tips">{{alertSave}}</view>
-            <view class="weui-btn-area">
-                <button class="weui-btn" type="primary" @tap="showTopTips">确定</button>
-            </view>
+                <view class="weui-btn-area">
+                    <button class="weui-btn" type="primary" form-type="submit">提交</button>
+                </view>
+            </form>
         </view>
     </view>
 </template>
 
 <script>
     import wepy from 'wepy';
-
     export default class Input extends wepy.page {
 
         data = {
-            tipsFlag: false,
+            title: '',
+            context: '',
+            files: [],
 
-            radioItems: [
-                {name: 'cell standard', value: '0', checked: false},
-                {name: 'cell standard', value: '1', checked: true}
-            ],
-            checkboxItems: [
-                {name: 'standard is dealt for u.', value: '0', checked: true},
-                {name: 'standard is dealicient for u.', value: '1', checked: false}
-            ],
-
-            date: '1990-09-01',
-            time: '12:01',
-
-            countryCodes: ['+86', '+80', '+84', '+87'],
-            countryCodeIndex: 0,
-
-            countries: ['中国', '美国', '英国'],
-            countryIndex: 0,
-
-            accounts: ['微信号', 'QQ', 'Email'],
-            accountIndex: 0,
-
-            isAgree: false,
-
-            alertSave: '保存在本地'
+            alertMsg: '感谢您的支持！'
         };
 
         methods = {
-            radioChange (e) {
-                console.log('radio发生change事件，携带value值为：', e.detail.value);
+            async submitFeature (e) {
+                this.title = e.detail.value.title;
+                this.context = e.detail.value.context;
+                console.log(this.title + ' - ' + this.context);
 
-                this.radioItems.forEach(v => {
-                    v.checked = v.value === e.detail.value;
-                });
-            },
-            checkboxChange (e) {
-                console.log('checkbox发生change事件，携带value值为：', e.detail.value);
-
-                var checkboxItems = this.checkboxItems, values = e.detail.value;
-                for (var i = 0, lenI = checkboxItems.length; i < lenI; ++i) {
-                    checkboxItems[i].checked = false;
-
-                    for (var j = 0, lenJ = values.length; j < lenJ; ++j) {
-                        if (checkboxItems[i].value === values[j]) {
-                            checkboxItems[i].checked = true;
-                            break;
-                        }
-                    }
-                }
-
-                this.checkboxItems = checkboxItems;
-            },
-            bindDateChange (e) {
-                this.date = e.detail.value;
-            },
-            bindTimeChange (e) {
-                this.time = e.detail.value;
-            },
-            bindCountryCodeChange (e) {
-                console.log('picker country code 发生选择改变，携带值为', e.detail.value);
-
-                this.countryCodeIndex = e.detail.value;
-            },
-            bindAccountChange (e) {
-                console.log('picker country 发生选择改变，携带值为', e.detail.value);
-                this.accountIndex = e.detail.value;
-            },
-            bindCountryChange (e) {
-                this.countryIndex = e.detail.value;
-            },
-            bindAgreeChange (e) {
-                this.isAgree = !!e.detail.value.length;
-            },
-            bindSaveCheck (e) {
-                if (e.detail.value === true) {
-                    this.alertSave = '保存到云端';
-                } else {
-                    this.alertSave = '保存在本地';
-                    console.log(this.today);
-                    console.log(this.date);
-                }
-                this.$apply();
-            },
-            async showTopTips () {
-                this.tipsFlag = true;
-                var startDate = new Date(this.date);
-                var now = new Date();
-                this.period = Math.ceil((now - startDate) / 1000 / 60 / 60 / 24);
-                var alertMsg = '';
-                if (now > startDate) {
-                    alertMsg = '幸运之星：认识她/他 ' + this.period + ' 天了';
-                } else {
-                    alertMsg = '加油，从第一天开始！';
-                }
                 let res = await wepy.showModal({
-                    content: alertMsg,
+                    content: this.alertMsg,
                     showCancel: false
                 });
 
                 if (res.confirm) {
-                    console.log('用户点击确定');
                 }
-
-                setTimeout(() => {
-                    // this.title = 'this is title';
-                    this.date = '2019-07-01';
-                    console.log('$apply');
-                    this.$apply();
-                }, 3000);
+            },
+            chooseImage: function (e) {
+                var that = this;
+                wx.chooseImage({
+                    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                    success: function (res) {
+                        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+                        that.files = that.data.files.concat(res.tempFilePaths);
+                    }
+                });
+            },
+            previewImage: function(e) {
+                wx.previewImage({
+                    current: e.currentTarget.id, // 当前显示图片的http链接
+                    urls: this.data.files // 需要预览的图片http链接列表
+                });
             }
-
         };
 
         onLoad () {
-            this.icon = require('../images/base64.js').icon20;
-            var today = new Date();
-            this.today = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         }
     }
 </script>
